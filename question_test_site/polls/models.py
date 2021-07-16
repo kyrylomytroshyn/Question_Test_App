@@ -3,7 +3,6 @@ from django.db import models
 
 class Question(models.Model):
     question = models.CharField(max_length=300)
-    question_number = models.IntegerField()
     answer = models.CharField(max_length=100)
 
     def __str__(self):
@@ -41,8 +40,9 @@ class TestQuestions(models.Model):
                                  null=True,
                                  default=None,
                                  related_name='questions')
+    question_number = models.IntegerField()
 
     class Meta:
         verbose_name = 'Test questions'
         verbose_name_plural = 'Test questions'
-
+        ordering = ["-question_number"]
