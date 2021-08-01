@@ -1,0 +1,27 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+<style>
+    .form-control{
+        width: 50%;
+        margin-left: 30px;
+    }
+    label{
+        margin-left: 30px;
+    }
+</style>
+
+ <form method="POST">
+     <br>
+
+    {% csrf_token %}
+    {{ form.errors }}
+    {{ form.as_p }}
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">add</button>
+    </div><br>
+  </form>
+
+
+
+{% endblock %}
