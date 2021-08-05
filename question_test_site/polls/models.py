@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
+from django.utils.functional import cached_property
+
 
 class Question(models.Model):
     question = models.CharField(max_length=300)
@@ -35,7 +37,7 @@ class Test(models.Model):
         return self.title
 
     def get_tests(self):
-        self.question_set.all()
+        return self.question_set.all()
 
 
 class TestQuestions(models.Model):
@@ -85,7 +87,7 @@ class AnsweredTestQuestions(models.Model):
 class TestRun(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.CharField(max_length=100)  # ForeignKey(User, on_delete=models.CASCADE)
-    count_of_questions = models.IntegerField()
+    count_of_questions = models.IntegerField(null=True)
     questions = models.ManyToManyField(Question, through=AnsweredTestQuestions)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -14,8 +14,7 @@
      <h6>Questions: </h6>
      {% for i in questions %}
         <p>{{ forloop.counter }}. {{ i.question }} {{ i.question_id }} </p>
-        <input style ="margin-bottom: 10px;" type="text" name="{{ i.question_id }}">
-
+        <input style ="margin-bottom: 10px;" type="text" name="ans{{ forloop.counter }}">
      {% endfor %}
     <div class="col-12">
       <button class="btn btn-primary" type="submit">add</button>

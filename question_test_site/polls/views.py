@@ -1,10 +1,10 @@
 # from django.forms import formset_factory
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, Http404, get_object_or_404
-#
+from django.utils.translation import gettext as _
 from django.urls import reverse_lazy
 from django.views import View
-
+from datetime import datetime
 #from .forms import RunForm, CategoriaModelForm
 from .models import Test, Question, TestRun, AnsweredTestQuestions, TestQuestions
 # from questions.models import Question
@@ -14,18 +14,20 @@ from django.views.generic import ListView, DetailView, UpdateView
 
 
 # from django.urls import reverse_lazy
-# from .forms import PostForm
+from .forms import PostForm
 # from django.forms.models import modelform_factory, inlineformset_factory
 #
 #
 class TestListView(ListView):
     model = Test
     context_object_name = "tests"
+
     template_name = "tests/index.html"
 
 
 def tests_view(request, pk):
     test = TestRun.objects.get(test_id=pk)
+    output = _("Welcome to my site.")
     # for i in test.questions.all():
     #     print("-------------" + str(i.question))
     if request.method == "POST":
@@ -51,17 +53,30 @@ def test_results_info(request, pk):
 def test_run(request, pk):
     test = Test.objects.get(id=pk)
     questions = TestQuestions.objects.filter(test_id=pk)
-    # form = CategoriaModelForm(instance=test)
-    # model = inlineformset_factory(Test, Test.questions.through, exclude=['id',] )
-    # #results_info = get_object_or_404(TestQuestions, test_id=pk)
+    form = PostForm()
 
     if request.method == 'POST':
-        pass
-    else:
-        context = {
-            'form': test,
-            'questions': questions,
-        }
+        form = PostForm(request.POST)
+        form = TestRun.objects.create(test_id = pk, user = "1", count_of_questions=1, created_at = datetime.now())
+
+
+        # questions = models.ManyToManyField(Question, through=AnsweredTestQuestions)
+        # created_at = models.DateTimeField(auto_now_add=True)
+
+        # if form.is_valid():
+            #form.cleaned_data['test_id'] = pk
+
+        form.save()
+
+        for index, i in enumerate(questions):
+
+            new_form = AnsweredTestQuestions.objects.create(answer=ans[index], question_id=1, test_id=pk)
+            new_form.save()
+        return redirect("/")
+    context = {
+        'form': form,
+        'questions': questions,
+    }
         #questions = AnsweredTestQuestions.objects.get(pk=pk)
         # form = CategoriaModelForm(instance=results_info)
     #     formset = model(instance=test)
