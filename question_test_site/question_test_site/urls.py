@@ -18,14 +18,14 @@ from django.urls import include, path
 from django.conf import settings
 
 urlpatterns = [
-    path('polls/', include('polls.urls')),
+    path('', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        path("posts/", include("polls.urls")),
+        path("", include("polls.urls")),
         path("admin/", admin.site.urls),
         path('__debug__/', include(debug_toolbar.urls)),
     ]
