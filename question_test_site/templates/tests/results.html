@@ -1,0 +1,18 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+
+<h1>Test results: </h1>
+
+{% for i in form %}
+<h5 style = "margin-left: 1%" ><a href="completed/{{forloop.counter}}" style = "color: #0000AA">
+    <b>{{ forloop.counter }}.</b>
+    Test: {{ i.test }}<br/>
+    User: {{ i.user }}<br/>
+    Created: {{ i.created_at }}<br/>
+    Answered: {{ i.count_of_questions }}<br/>
+
+    </a></h5>
+
+{% endfor %}
+{% endblock %}

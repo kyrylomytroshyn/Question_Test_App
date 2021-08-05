@@ -1,0 +1,12 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+
+<h1>Test results: </h1>
+
+{% for i in form %}
+<h5 style = "margin-left: 1%"><b>{{ forloop.counter }}.</b> Question: {{ i.question }}.</h5>
+<h5 style = "margin-left: 1%">Answer: {{ i.answer }} </h5>
+
+{% endfor %}
+{% endblock %}
