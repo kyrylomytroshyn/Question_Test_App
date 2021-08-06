@@ -11,7 +11,7 @@
      <h5>Additional info: {{ form.test_info }}</h5>
      <h5>Created: {{ form.created_at }}</h5>
      <h5>Author: </h5>
-     <h5>Your name: </h5> <input type="text" name = "name">
+     <h5>Your name: </h5> <input type="text" name = "name" required>
      <h6>Questions: </h6>
      {% for i in questions %}
         <p>{{ forloop.counter }}. {{ i.question }} </p>

@@ -8,6 +8,21 @@ class TestListView(ListView):
     context_object_name = "tests"
     template_name = "tests/index.html"
 
+    def get_queryset(self):
+        filter_val = self.request.GET.get('order', 'up')
+        if filter_val == "up":
+            val = ""
+        else:
+            val = "-"
+
+        new_context = Test.objects.all().order_by(val + 'title')
+        return new_context
+
+    def get_context_data(self, **kwargs):
+        context = super(TestListView, self).get_context_data(**kwargs)
+        context['order'] = self.request.GET.get('order', 'give-default-value')
+        return context
+
 
 def tests_view(request, pk):
     test = TestRun.objects.get(test_id=pk)
@@ -40,7 +55,7 @@ def test_run(request, pk):
     if request.method == 'POST':
 
         for i in range(len(questions)):
-            ans = request.POST['ans' + str(i+1)]
+            ans = request.POST['ans' + str(i + 1)]
             list_of_answers.append(ans)
             if len(ans) != 0:
                 count_of_questions += 1
@@ -68,3 +83,30 @@ def test_run(request, pk):
 
 def thanks(request):
     return render(request, 'tests/thanks.html')
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['search_text']
+        if searched == "":
+            return redirect('/')
+        tests = Test.objects.filter(title__contains=searched)
+        context = {'searched': searched,
+                   'tests': tests}
+        return render(request, "tests/search_result.html", context)
+
+    return render(request, "tests/search_result.html", {})
+
+
+def find_by_date(request):
+    if request.method == "GET":
+        searched_from = request.GET['date_from']
+        searched_to = request.GET['date_to']
+        res = Test.objects.filter(created_at__range=[searched_from, searched_to])
+
+        context = {'tests': res,
+                   'searched': f"period from {searched_from} to {searched_to}"}
+        return render(request, "tests/search_result.html", context)
+
+    return render(request, "tests/search_result.html", {})
+

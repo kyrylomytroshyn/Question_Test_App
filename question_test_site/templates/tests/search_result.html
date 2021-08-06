@@ -1,0 +1,29 @@
+{% extends 'tests/base.html' %}
+
+
+{% block content %}
+    <center>
+        {% if tests %}
+            <h1>You searching for {{ searched }} </h1> <br/>
+            <h1>Results:</h1> <br/>
+            {% for test in tests %}
+                <h3><a href="/{{ test.id }}">{{ forloop.counter }}. {{ test.title }} </a></h3> <br/>
+            {% endfor %}
+        {% else %}
+            <h1>You searched for missing test.</h1>
+        {% endif %}
+ <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+      <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      </div>
+    </div>
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker();
+      });
+    </script>
+
+
+{% endblock %}
