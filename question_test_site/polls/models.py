@@ -85,7 +85,7 @@ class AnsweredTestQuestions(models.Model):
 class TestRun(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.CharField(max_length=100)  # ForeignKey(User, on_delete=models.CASCADE)
-    count_of_questions = models.IntegerField()
+    count_of_questions = models.IntegerField(null=True      )
     questions = models.ManyToManyField(Question, through=AnsweredTestQuestions)
     created_at = models.DateTimeField(auto_now_add=True)
 

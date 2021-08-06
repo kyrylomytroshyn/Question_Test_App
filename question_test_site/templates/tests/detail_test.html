@@ -11,11 +11,11 @@
      <h5>Additional info: {{ form.test_info }}</h5>
      <h5>Created: {{ form.created_at }}</h5>
      <h5>Author: </h5>
+     <h5>Your name: </h5> <input type="text" name = "name">
      <h6>Questions: </h6>
      {% for i in questions %}
-        <p>{{ forloop.counter }}. {{ i.question }} {{ i.question_id }} </p>
-        <input style ="margin-bottom: 10px;" type="text" name="{{ i.question_id }}">
-
+        <p>{{ forloop.counter }}. {{ i.question }} </p>
+        <input style ="margin-bottom: 10px;" type="text" name="ans{{ forloop.counter }}">
      {% endfor %}
     <div class="col-12">
       <button class="btn btn-primary" type="submit">add</button>
