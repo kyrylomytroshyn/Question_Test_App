@@ -3,6 +3,11 @@ from django.forms import formset_factory
 from .models import Test, TestRun  # , Question, TestQuestions
 
 
+class PostForm(forms.ModelForm):
+
+    class Meta:
+        model = TestRun
+        fields = ()
 #
 # class PostForm(forms.ModelForm):
 #     title = forms.CharField(
