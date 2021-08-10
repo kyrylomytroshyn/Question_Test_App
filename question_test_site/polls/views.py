@@ -12,6 +12,7 @@ class TestListView(ListView):
     context_object_name = "tests"
     template_name = "tests/index.html"
     app_log.info(f"Request: GET TEST LIST")
+
     def get_queryset(self):
         filter_val = self.request.GET.get('order', 'up')
         if filter_val == "up":
@@ -114,7 +115,7 @@ def find_by_date(request):
         context = {'tests': res,
                    'searched': f"period from {searched_from} to {searched_to}"}
         app_log.info(f"Request: Find tests with period from {searched_from} to {searched_to}. "
-                      f"Result: {res}")
+                     f"Result: {res}")
         return render(request, "tests/search_result.html", context)
 
     return render(request, "tests/search_result.html", {})
