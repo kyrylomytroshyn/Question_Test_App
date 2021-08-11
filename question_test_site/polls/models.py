@@ -5,7 +5,6 @@ from django.db import models
 
 class Question(models.Model):
     question = models.CharField(max_length=300)
-    answer = models.CharField(max_length=300, null=True)
 
     def __str__(self):
         return self.question
@@ -22,12 +21,13 @@ class Test(models.Model):
     title = models.CharField(max_length=100, unique=True)
     test_info = models.TextField()
     author = models.CharField(max_length=100, null=True)
-    runner = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     questions = models.ManyToManyField(Question, through='TestQuestions')
+    count_of_runs = models.IntegerField(default=0)
+
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["created_at"]
         verbose_name = 'Tests'
         verbose_name_plural = 'Tests'
 
@@ -56,7 +56,7 @@ class TestQuestions(models.Model):
     class Meta:
         verbose_name = 'Test questions'
         verbose_name_plural = 'Test questions'
-        ordering = ["-question_number"]
+        ordering = ["question_number"]
 
 
 class AnsweredTestQuestions(models.Model):
@@ -86,6 +86,7 @@ class TestRun(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.CharField(max_length=100)  # ForeignKey(User, on_delete=models.CASCADE)
     count_of_questions = models.IntegerField(null=True)
+    count_of_created_questions = models.IntegerField(null=True)
     questions = models.ManyToManyField(Question, through=AnsweredTestQuestions)
     created_at = models.DateTimeField(auto_now_add=True)
 

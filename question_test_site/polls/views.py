@@ -3,6 +3,7 @@ from .models import Test, TestRun, AnsweredTestQuestions, TestQuestions
 from django.views.generic import ListView
 from django.utils.translation import gettext as _
 import logging
+from django.db.models import F
 
 app_log = logging.getLogger("tests_app")
 
@@ -59,16 +60,21 @@ def test_run(request, pk):
     count_of_questions = 0
 
     if request.method == 'POST':
-
-        for i in range(len(questions)):
+        count_of_questions_to_pass = len(questions)
+        for i in range(count_of_questions_to_pass):
             ans = request.POST['ans' + str(i + 1)]
             list_of_answers.append(ans)
             if len(ans) != 0:
                 count_of_questions += 1
         newpost = TestRun(test=test,
                           user=request.POST['name'],
-                          count_of_questions=count_of_questions)
+                          count_of_questions=count_of_questions,
+                          count_of_created_questions=count_of_questions_to_pass)
         newpost.save()
+
+        if count_of_questions_to_pass == count_of_questions:
+            test.count_of_runs += 1
+            test.save()
 
         for q in questions:
             newpost.questions.add(q.question)
@@ -77,7 +83,8 @@ def test_run(request, pk):
         for i in range(len(manyquestions)):
             manyquestions[i].answer = list_of_answers[i]
             manyquestions[i].save()
-
+        app_log.info(f"Request: Completed new Test Run. "
+                     f"Completed {count_of_questions} of {count_of_questions_to_pass}")
         return redirect('/thanks')
     context = {
         'form': test,

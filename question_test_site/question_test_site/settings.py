@@ -1,3 +1,4 @@
+
 """
 Django settings for question_test_site project.
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'rangefilter',
+    'django_celery_results',
+    "django_celery_beat",
     # 'rest_framework',
     # 'drf_yasg',
 ]
@@ -112,6 +115,24 @@ LANGUAGES = [
     ('uk', 'Ukrainian'),
 ]
 
+from celery.schedules import crontab
+
+BROKER_URL = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Kiev'
+CELERY_BROKER_URL = 'redis://localhost'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULE = {
+    'create-report-every-day': {
+        'task': 'polls.tasks.create_log',
+        'schedule': crontab(hour=18, minute=24),
+    }
+}
 # LOCALE_PATHS = [
 #     os.path.join(BASE_DIR, 'locale')
 # ]
