@@ -130,7 +130,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BEAT_SCHEDULE = {
     'create-report-every-day': {
         'task': 'polls.tasks.create_log',
-        'schedule': crontab(hour=18, minute=24),
+        'schedule': crontab(hour=20, minute=00),
     }
 }
 # LOCALE_PATHS = [
