@@ -20,8 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gx_gw9o@^k96ld(*vtq!!sp8xj$_(ojroe3-k(ondt89p0d=mt'
+
+with open(BASE_DIR/'secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
+
+
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY =
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,9 +47,13 @@ INSTALLED_APPS = [
     'rangefilter',
     'django_celery_results',
     "django_celery_beat",
-    # 'rest_framework',
-    # 'drf_yasg',
+    'rest_framework',
+    'crispy_forms',
+    'drf_yasg',
+    'rest_framework_simplejwt',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
 
 ROOT_URLCONF = 'question_test_site.urls'
 
@@ -223,12 +233,18 @@ LOGGING = {
     },
 }
 
-# # DRF
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 10,
-#     'DATETIME_FORMAT': "%Y/%m/%d %H:%M:%S",
-# }
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DATETIME_FORMAT': "%Y/%m/%d %H:%M:%S",
+}
 
 
 
@@ -245,8 +261,3 @@ LOGGING = {
 #     }
 # }
 
-#
-# try:
-#     from .settings_local import *
-# except ImportError as e:
-#     print(e)

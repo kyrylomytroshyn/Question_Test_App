@@ -119,3 +119,5 @@ GitHub.sublime-settings
 .csv
 
 dump.rdb
+
+secret_key.txt

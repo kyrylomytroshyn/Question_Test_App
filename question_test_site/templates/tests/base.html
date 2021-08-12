@@ -56,11 +56,13 @@
                </li>
             </ul>
             <form method="GET" action="{% url  'tests:find_by_date' %}">
-               <a style="color: #FFFFFF;margin-right: 10px;overflow:hidde ">From: </a>
-               <input type="date" class="form-control" id="date_from" name="date_from" placeholder="Дата" style="width: 180px; margin-right: 1%">
-               <a style="color: #FFFFFF;margin-right: 10px">To: </a>
-               <input type="date" class="form-control" id="date_to" name="date_to" placeholder="Дата" style="width: 180px; margin-right: 1%">
-               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="border-color: #17a2b8; color: #17a2b8">Search by date</button>
+               <div style="display: flex; flex-direction: row; ">
+                  <a style="color: #FFFFFF; margin-right: 10px; margin-top: 8px "><b>From:</b> </a>
+                  <input type="date" class="form-control" id="date_from" name="date_from" placeholder="Дата" style="width: 180px; margin-right: 1%">
+                  <a style="color: #FFFFFF;margin-right: 10px; margin-top: 8px"><b>To:</b></a>
+                  <input type="date" class="form-control" id="date_to" name="date_to" placeholder="Дата" style="width: 180px; margin-right: 1%">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="border-color: #17a2b8; color: #17a2b8; margin-right: 10px">Search by date</button>
+               </div>
             </form>
             <form method=GET action="{% url 'tests:index' %}">
                <input style="display: none;" type="text" value="up" name="order">

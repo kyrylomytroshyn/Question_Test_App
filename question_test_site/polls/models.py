@@ -51,7 +51,6 @@ class TestQuestions(models.Model):
                                  related_name='questions')
 
     question_number = models.IntegerField(null=True)
-    answer = models.CharField(max_length=200, unique=False, null=True)
 
     class Meta:
         verbose_name = 'Test questions'
