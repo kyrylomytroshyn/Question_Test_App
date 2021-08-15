@@ -28,12 +28,19 @@ class TestViewSet(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class TestViewSetTop3(TestViewSet):
+class TestViewSetTop(mixins.ListModelMixin,
+                     generics.GenericAPIView):
+    queryset = Test.objects.all()
+    serializer_class = TestTopSerializer
+    permission_classes = [UserActive]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class TestViewSetTop3(TestViewSetTop):
     queryset = Test.objects.all().order_by('-count_of_runs')[:3]
 
-
-class TestViewSetTop(TestViewSet):
-    serializer_class = TestTopSerializer
 
 
 class TestViewSetForEach(
