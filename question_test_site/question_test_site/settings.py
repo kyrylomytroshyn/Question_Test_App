@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'drf_yasg',
-    'rest_framework_simplejwt',
+#    'rest_framework_simplejwt',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -99,7 +99,7 @@ DATABASES = {
     }
 }
 
-# Password validation
+# Password validarest_framework_simplejwt.authentication.JWTAuthentication'tion
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -238,15 +238,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': "%Y/%m/%d %H:%M:%S",
 }
 
-
+# E-MAIL SYSTEM
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # CACHES = {

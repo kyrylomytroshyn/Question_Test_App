@@ -7,6 +7,9 @@ from django.db.models import F
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 
 
 app_log = logging.getLogger("tests_app")
@@ -41,10 +44,11 @@ def tests_view(request, pk):
     return render(request, 'tests/detail_test.html', context)
 
 
+@login_required(login_url='/accounts/login')
 def test_results(request):
     """Getting test results headers into template 'tests/results'"""
     app_log.info(f"Request: Get test results")
-    results = TestRun.objects.all()
+    results = TestRun.objects.filter(user=request.user)
     context = {'form': results}
     return render(request, 'tests/results.html', context)
 
@@ -56,6 +60,7 @@ def test_results_info(request, pk):
     return render(request, 'tests/result_info.html', context)
 
 
+@login_required(login_url='/accounts/login/')
 def test_run(request, pk):
     app_log.info(f"Request: Start test number {pk}")
     test = Test.objects.get(id=pk)
@@ -71,7 +76,7 @@ def test_run(request, pk):
             if len(ans) != 0:
                 count_of_questions += 1
         newpost = TestRun(test=test,
-                          user=request.POST['name'],
+                          user=request.user,
                           count_of_questions=count_of_questions,
                           count_of_created_questions=count_of_questions_to_pass)
         newpost.save()
@@ -133,13 +138,32 @@ def find_by_date(request):
 
 
 def register_request(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    form_register = NewUserForm()
     if request.method == "POST":
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+        form_register = NewUserForm(request.POST)
+        if form_register.is_valid():
+            user = form_register.save()
             login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect("main:homepage")
+            return redirect('/')
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
-    return render(request=request, template_name="tests/register.html", context={"register_form": form})
+    return render(request=request, template_name="registration/register.html", context={"register_form": form_register})
+
+
+def login_request(request):
+    login_form = AuthenticationForm()
+    if request.POST == "POST":
+        login_form = AuthenticationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.error(request, "Wrong pass or login.")
+    return render(request, 'registration/login.html', {'form': login_form})

@@ -1,6 +1,13 @@
 {% extends "tests/base.html" %}
 
+
+{% load crispy_forms_tags %}
+
 {% block content %}
+
+{% if user.is_authenticated %}
+  <h3><a href="/">You`re already log in. To show the main page press on this text.</a></h3>
+{% else %}
 
 {% if form.errors %}
   <p>Your username and password didn't match. Please try again.</p>
@@ -15,7 +22,7 @@
   {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
+<form method="post" >
 {% csrf_token %}
 <table>
 
@@ -34,7 +41,10 @@
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
+  <form action="{% url 'tests:register' %}">
+    <input type="submit" value="register" />
+  </form>
+<!--{# Assumes you setup the password_reset view in your URLconf #}-->
+<!--<p><a href="{% url 'password_reset' %}">Lost password?</a></p>-->
+{% endif %}
 {% endblock %}

@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -20,7 +20,8 @@ class Question(models.Model):
 class Test(models.Model):
     title = models.CharField(max_length=100, unique=True)
     test_info = models.TextField()
-    author = models.CharField(max_length=100, null=True)
+    # author = models.CharField(max_length=100, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     questions = models.ManyToManyField(Question, through='TestQuestions')
     count_of_runs = models.IntegerField(default=0)
@@ -83,7 +84,8 @@ class AnsweredTestQuestions(models.Model):
 
 class TestRun(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    user = models.CharField(max_length=100)  # ForeignKey(User, on_delete=models.CASCADE)
+    #user = models.CharField(max_length=100)  # ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     count_of_questions = models.IntegerField(null=True)
     count_of_created_questions = models.IntegerField(null=True)
     questions = models.ManyToManyField(Question, through=AnsweredTestQuestions)

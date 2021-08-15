@@ -6,8 +6,10 @@ from django.urls import reverse
 class TestQuestionInline(admin.TabularInline):
     model = TestQuestions
 
+
 class AnsweredQuestionInline(admin.TabularInline):
     model = AnsweredTestQuestions
+
 
 class TestAdmin(admin.ModelAdmin):
     model = Test
@@ -22,9 +24,11 @@ class TestAdmin(admin.ModelAdmin):
 
     category_post_count.short_description = "Count of questions"
 
+
 class AnswerListAdmin(admin.ModelAdmin):
     model = AnsweredTestQuestions
     list_display = ("test", "question", "answer")
+
 
 class TestRunAdmin(admin.ModelAdmin):
     model = TestRun

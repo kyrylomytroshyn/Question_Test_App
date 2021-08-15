@@ -121,4 +121,4 @@ GitHub.sublime-settings
 
 dump.rdb
 
-secret_key.txt
+question_test_site/secret_key.txt
