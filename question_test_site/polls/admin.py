@@ -13,7 +13,7 @@ class AnsweredQuestionInline(admin.TabularInline):
 
 class TestAdmin(admin.ModelAdmin):
     model = Test
-    list_display = ('title', 'created_at', 'category_post_count')
+    list_display = ('title', 'created_at', 'category_post_count', 'count_of_runs')
 
     inlines = [
         TestQuestionInline

@@ -43,14 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'rangefilter',
     'django_celery_results',
     "django_celery_beat",
     'rest_framework',
     'crispy_forms',
     'drf_yasg',
-#    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -58,14 +59,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #    "django.middleware.cache.UpdateCacheMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
-    #    "django.middleware.cache.FetchFromCacheMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
@@ -143,9 +144,8 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=20, minute=00),
     }
 }
-# LOCALE_PATHS = [
-#     os.path.join(BASE_DIR, 'locale')
-# ]
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -169,6 +169,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
 LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
 if not os.path.exists(LOGGING_DIR):
     os.mkdir(LOGGING_DIR)
@@ -238,27 +239,32 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': "%Y/%m/%d %H:%M:%S",
 }
 
-# E-MAIL SYSTEM
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#
+# SESSIONS_ENGINE = 'django.contrib.sessions.backends.cache'
+#
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
 #         'LOCATION': '127.0.0.1:11211',
 #         'TIMEOUT': 3600,
-#     },
-#     'db_cache': {
-#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-#         'LOCATION': 'my_cache_table',
 #     }
 # }
-
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+#         'LOCATION': [
+#            '127.0.0.1:11211',
+#         ],
+#     }
+# }
