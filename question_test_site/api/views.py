@@ -11,6 +11,9 @@ from .serializers import (
 from polls.models import Test, Question
 from rest_framework import mixins
 from .permissions import UserActive
+from .filters import TestFilterSettings
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 
 
 class TestViewSet(mixins.ListModelMixin,
@@ -20,6 +23,8 @@ class TestViewSet(mixins.ListModelMixin,
     serializer_class = TestSerializer
     permission_classes = [UserActive]
     ordering_fields = ['created_at', 'title']
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
+    filterset_class = TestFilterSettings
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -40,7 +45,6 @@ class TestViewSetTop(mixins.ListModelMixin,
 
 class TestViewSetTop3(TestViewSetTop):
     queryset = Test.objects.all().order_by('-count_of_runs')[:3]
-
 
 
 class TestViewSetForEach(
@@ -66,27 +70,17 @@ class TestViewSetForEach(
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Question.objects.all().order_by("-id")
     serializer_class = QuestionSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]

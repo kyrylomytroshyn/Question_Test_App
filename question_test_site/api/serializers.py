@@ -1,11 +1,10 @@
 from polls.models import Test, Question
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
-from .validators import title_has_digits
 
 
 class TestSerializer(serializers.HyperlinkedModelSerializer):
-    title = serializers.CharField(validators=[title_has_digits])
+    title = serializers.CharField()  # validators=[title_has_digits]
     created_at = serializers.DateTimeField(format='iso-8601', read_only=True)
 
     class Meta:
