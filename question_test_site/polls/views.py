@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.cache import caches
-
+from django.views.decorators.cache import cache_page
 
 app_log = logging.getLogger("tests_app")
 
@@ -37,7 +37,7 @@ class TestListView(ListView):
         context['order'] = self.request.GET.get('order', 'give-default-value')
         return context
 
-
+# @cache_page(10*60)
 def tests_view(request, pk):
     app_log.info(f"Request: Get test number {pk}")
     test = TestRun.objects.get(test_id=pk)
