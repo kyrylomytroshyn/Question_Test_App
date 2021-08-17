@@ -84,7 +84,6 @@ class AnsweredTestQuestions(models.Model):
 
 class TestRun(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    #user = models.CharField(max_length=100)  # ForeignKey(User, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     count_of_questions = models.IntegerField(null=True)
     count_of_created_questions = models.IntegerField(null=True)
@@ -93,3 +92,9 @@ class TestRun(models.Model):
 
     def __str__(self):
         return str(self.test)
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200, unique=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Test, Question, TestQuestions, TestRun, AnsweredTestQuestions
+from .models import Test, Question, TestQuestions, TestRun, AnsweredTestQuestions, Comment
 from django.urls import reverse
 
 
@@ -43,3 +43,4 @@ admin.site.register(Question)
 admin.site.register(TestRun, TestRunAdmin)
 admin.site.register(AnsweredTestQuestions, AnswerListAdmin)
 admin.site.register(TestQuestions)
+admin.site.register(Comment)

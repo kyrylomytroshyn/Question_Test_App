@@ -1,3 +1,6 @@
+import json
+
+from channels.db import database_sync_to_async
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, generics
 from rest_framework import permissions
@@ -8,12 +11,13 @@ from .serializers import (
     GroupSerializer,
     TestTopSerializer
 )
-from polls.models import Test, Question
+from polls.models import Test, Question, Comment
 from rest_framework import mixins
 from .permissions import UserActive
 from .filters import TestFilterSettings
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+
 
 
 class TestViewSet(mixins.ListModelMixin,
