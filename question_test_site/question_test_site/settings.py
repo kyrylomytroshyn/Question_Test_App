@@ -182,62 +182,62 @@ if not os.path.exists(LOGGING_DIR):
 U_LOGFILE_SIZE = 5 * 1024 * 1024
 U_LOGFILE_COUNT = 0
 #
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': True,
-#     'formatters': {
-#         'actions': {
-#             'format': '%(asctime)s [%(levelname)s]::: %(name)s: %(message)s'
-#         },
-#         'actions_timeout': {
-#             'format': '%(asctime)s [%(levelname)s]::: %(name)s: %(message)s'
-#         },
-#         'console': {
-#             'format': '%(asctime)s [%(levelname)s]::: %(name)s: %(message)s'
-#         },
-#     },
-#     'handlers': {
-#         'actions': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': os.path.join(LOGGING_DIR, 'actions.log'),
-#             'maxBytes': U_LOGFILE_SIZE,
-#             'backupCount': U_LOGFILE_COUNT,
-#             'formatter': 'actions',
-#         },
-#         'actions_timeout': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.TimedRotatingFileHandler',
-#
-#             'when': 'midnight',
-#             'interval': 1,
-#             'filename': os.path.join(LOGGING_DIR, 'actions.log'),
-#             'formatter': 'actions_timeout',
-#         },
-#         'console': {
-#             'level': 'DEBUG',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'console',
-#         },
-#     },
-#     'loggers': {
-#         'tests_app': {
-#             'handlers': ['actions', 'console', 'actions_timeout'],
-#             'propagate': True,
-#             'level': 'INFO',
-#         },
-#         'django': {
-#             'handlers': ['actions', 'actions_timeout'],
-#             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-#             'propagate': False,
-#         },
-#         'django.request': {
-#             'handlers': ['actions', 'actions_timeout'],
-#             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-#             'propagate': False,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'actions': {
+            'format': '%(asctime)s [%(levelname)s]::: %(name)s: %(message)s'
+        },
+        'actions_timeout': {
+            'format': '%(asctime)s [%(levelname)s]::: %(name)s: %(message)s'
+        },
+        'console': {
+            'format': '%(asctime)s [%(levelname)s]::: %(name)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'actions': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'actions.log'),
+            'maxBytes': U_LOGFILE_SIZE,
+            'backupCount': U_LOGFILE_COUNT,
+            'formatter': 'actions',
+        },
+        'actions_timeout': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+
+            'when': 'midnight',
+            'interval': 1,
+            'filename': os.path.join(LOGGING_DIR, 'actions.log'),
+            'formatter': 'actions_timeout',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        'tests_app': {
+            'handlers': ['actions', 'console', 'actions_timeout'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django': {
+            'handlers': ['actions', 'actions_timeout'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['actions', 'actions_timeout'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False,
+        },
+    },
+}
 
 # DRF
 REST_FRAMEWORK = {
