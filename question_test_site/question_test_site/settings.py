@@ -253,17 +253,8 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y/%m/%d %H:%M:%S",
 }
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#
 SESSIONS_ENGINE = 'django.contrib.sessions.backends.cache'
-#
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-#         'LOCATION': '127.0.0.1:11211',
-#         'TIMEOUT': 3600,
-#     }
-# }
+
 CACHES = {
     'default': {
         'BACKEND': 'djpymemcache.backend.PyMemcacheCache',

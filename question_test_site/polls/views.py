@@ -41,20 +41,6 @@ class TestListView(ListView):
         return context
 
 
-# def tests_view(request, pk):
-#     app_log.info(f"Request: Get test number {pk}")
-#
-# cache_name = 'test_view' + str(pk)
-# test = cache.get(cache_name)
-# print(test)
-# if not test:
-#     test = TestRun.objects.get(test_id=pk)
-#     cache.set(cache_name, test, CACHE_TIME)
-#
-# context = {'form': test}
-# return render(request, 'tests/detail_test.html', context)
-
-
 @login_required(login_url='/accounts/login')
 def test_results(request):
     """Getting test results headers into template 'tests/results'"""
@@ -209,18 +195,7 @@ def login_request(request):
 
 
 def lang(request, lang_code):
-    go_next = request.META.get('HTTP_REFERER', '/')
     response = HttpResponseRedirect(f"/{lang_code}")
-    # if lang_code and translation.check_for_language(lang_code):
-    #     if hasattr(request, 'session'):
-    #         request.session['django_language'] = lang_code
-    #         request.session['_language'] = lang_code
-    #     else:
-    #         response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
-    #     translation.activate(lang_code)
-    # return response
-    # go_next = request.META.get('HTTP_REFERER', '/')
-    # response = HttpResponseRedirect(go_next)
     if hasattr(request, 'session'):
         request.session[LANGUAGE_SESSION_KEY] = lang_code
     else:
@@ -231,21 +206,3 @@ def lang(request, lang_code):
             domain=settings.LANGUAGE_COOKIE_DOMAIN,
         )
     return response
-
-
-def switch_lang(request):
-    return render(request, 'tests/langswitch.html')
-
-# def switch_lang(request, code):
-#     go_next = request.META.get('HTTP_REFERER', '/')
-#     response = HttpResponseRedirect(go_next)
-#     if code and translation.check_for_language(code):
-#         if hasattr(request, 'session'):
-#             print(request.session['django_language'])
-#             print(request.session['_language'])
-#             request.session['django_language'] = code
-#             request.session['_language'] = code
-#         else:
-#             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code)
-#         translation.activate(code)
-#     return response

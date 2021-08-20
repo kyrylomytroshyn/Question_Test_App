@@ -53,11 +53,8 @@ urlpatterns = [
 
 ]
 
-
 from django.conf.urls.i18n import i18n_patterns
 
-# urlpatterns +=
-# urlpatterns += i18n_patterns()
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
     path('', include('polls.urls', namespace='question_test_size:polls')),

@@ -10,10 +10,8 @@ from .views import (
     find_by_date,
     register_request,
     login_request,
-    switch_lang,
     lang
 )
-from django.utils.translation import gettext_lazy as _
 
 app_name = 'tests'
 
@@ -27,8 +25,6 @@ urlpatterns = [
     path('find_by_date', find_by_date, name="find_by_date"),
     path("register", register_request, name="register"),
     path("login", login_request, name="login_request"),
-    # path('i18n/', include('django.conf.urls.i18n')),
-    path('langswitch/', switch_lang),
     path('lng/<str:lang_code>', lang)
 ]
 
