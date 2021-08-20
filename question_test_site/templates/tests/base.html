@@ -1,6 +1,11 @@
 {% load i18n %}
 {% load l10n %}
+{% load cache %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 
+{% cache 600 sidebar %}
 <!doctype html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <html lang="en">
@@ -60,9 +65,6 @@
                   <a class="nav-link" href="/completed">{% trans 'Completed tests'  %}</a>
                </li>
                <li class="nav-item">
-               {% get_current_language as LANGUAGE_CODE %}
-               {% get_available_languages as LANGUAGES %}
-               {% get_language_info_list for LANGUAGES as languages %}
                   <p style="color: white"><b>{% trans "Language" %}:</b></p>
                      <form action="/i18n/setlang/" method="POST">
                         {% csrf_token %}
@@ -131,3 +133,4 @@
       </script>
    </body>
 </html>
+{% endcache %}
