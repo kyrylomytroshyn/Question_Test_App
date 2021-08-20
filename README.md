@@ -35,4 +35,26 @@ python manage.py runserver
 
 Then, write 127.0.0.1:8000 in browser address line.
 
+To lauch memcache server you need to install this app in your system.
 
+All other requirements you can find in the requirements.txt.
+
+To use celery (for background tasks) lauch celery-server:
+
+Install redis and start redis-server.
+
+IWrite the command bellow to check server status:
+```
+redis-cli ping
+```
+If you got "PONG" - congratulations!
+
+1. Worker
+```
+celery -A worker -l info
+```
+
+2. Scheduler
+```
+celery -A picha beat -l info
+```
