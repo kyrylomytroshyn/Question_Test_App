@@ -1,19 +1,19 @@
+from django.utils import translation
 from django.shortcuts import render, redirect
 from .models import Test, TestRun, AnsweredTestQuestions, TestQuestions
 from django.views.generic import ListView
 from django.utils.translation import gettext as _
 import logging
-from django.db.models import F
 from .forms import NewUserForm
-from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.cache import caches
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 app_log = logging.getLogger("tests_app")
+
+CACHE_TIME = 60 * 10  # 60 seconds * 10 = 10 minutes
 
 
 class TestListView(ListView):
@@ -37,12 +37,19 @@ class TestListView(ListView):
         context['order'] = self.request.GET.get('order', 'give-default-value')
         return context
 
-# @cache_page(10*60)
-def tests_view(request, pk):
-    app_log.info(f"Request: Get test number {pk}")
-    test = TestRun.objects.get(test_id=pk)
-    context = {'form': test}
-    return render(request, 'tests/detail_test.html', context)
+
+# def tests_view(request, pk):
+#     app_log.info(f"Request: Get test number {pk}")
+#
+# cache_name = 'test_view' + str(pk)
+# test = cache.get(cache_name)
+# print(test)
+# if not test:
+#     test = TestRun.objects.get(test_id=pk)
+#     cache.set(cache_name, test, CACHE_TIME)
+#
+# context = {'form': test}
+# return render(request, 'tests/detail_test.html', context)
 
 
 @login_required(login_url='/accounts/login')
@@ -51,12 +58,22 @@ def test_results(request):
     app_log.info(f"Request: Get test results")
     results = TestRun.objects.filter(user=request.user)
     context = {'form': results}
+
     return render(request, 'tests/results.html', context)
 
 
+@login_required(login_url='/accounts/login')
 def test_results_info(request, pk):
     app_log.info(f"Request: Get test result number {pk}")
-    results_info = AnsweredTestQuestions.objects.filter(test_id=pk)
+
+    cache_name = 'test_view_results' + str(pk)
+    results_info = cache.get(cache_name)
+    print(results_info)
+    translation.activate("uk")
+    if not results_info:
+        results_info = AnsweredTestQuestions.objects.filter(test_id=pk)
+        cache.set(cache_name, results_info, CACHE_TIME)
+
     context = {'form': results_info}
     return render(request, 'tests/result_info.html', context)
 
@@ -150,7 +167,6 @@ def register_request(request):
             messages.success(request, "Registration successful.")
             return redirect('/')
         messages.error(request, "Unsuccessful registration. Invalid information.")
-    form = NewUserForm()
     return render(request=request, template_name="registration/register.html", context={"register_form": form_register})
 
 

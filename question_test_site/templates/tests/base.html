@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <!doctype html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <html lang="en">
@@ -51,10 +53,10 @@
          <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                <li class="nav-item active">
-                  <a class="nav-link" href="/">Home</a>
+                  <a class="nav-link" href="/">{% trans 'Home'  %}</a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="/completed">Completed tests</a>
+                  <a class="nav-link" href="/completed">{% trans 'Completed tests'  %}</a>
                </li>
             </ul>
             <form method="GET" action="{% url  'tests:find_by_date' %}">
@@ -63,22 +65,22 @@
                   <input type="date" class="form-control" id="date_from" name="date_from" placeholder="Дата" style="width: 180px; margin-right: 1%">
                   <a style="color: #FFFFFF;margin-right: 10px; margin-top: 8px"><b>To:</b></a>
                   <input type="date" class="form-control" id="date_to" name="date_to" placeholder="Дата" style="width: 180px; margin-right: 1%; ">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="border-color: #17a2b8; color: #17a2b8; margin-right: 10px; ">Search by date</button>
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="border-color: #17a2b8; color: #17a2b8; margin-right: 10px; ">{% trans 'Search by date' %}</button>
                </div>
             </form>
             <form method=GET action="{% url 'tests:index' %}">
                <input style="display: none;" type="text" value="up" name="order">
-               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; margin-left: 10px; border-color: #17a2b8; color: #17a2b8">Sort from earliest</button>
+               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; margin-left: 10px; border-color: #17a2b8; color: #17a2b8">{% trans 'Sort from earliest' %}</button>
             </form>
             <form method=GET action="{% url 'tests:index' %}">
                <input style="display: none;" type="text" value="down" name="order">
-               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; border-color: #17a2b8; color: #17a2b8">Sort from latest</button>
+               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; border-color: #17a2b8; color: #17a2b8">{% trans 'Sort from latest' %}</button>
             </form>
 
             <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'tests:search-text' %}">
                {% csrf_token %}
                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search_text" >
-               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
             </form>
             {% if user.is_authenticated %}
             <a style="color: red; margin-left: 10px; margin-right: 10px; margin-top: 1px"><b>User: {{ user.get_username }}</b></a>

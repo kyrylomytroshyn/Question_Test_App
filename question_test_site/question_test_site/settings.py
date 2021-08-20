@@ -148,13 +148,9 @@ CELERY_BEAT_SCHEDULE = {
 
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
@@ -253,7 +249,7 @@ REST_FRAMEWORK = {
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #
-# SESSIONS_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSIONS_ENGINE = 'django.contrib.sessions.backends.cache'
 #
 # CACHES = {
 #     'default': {
@@ -262,11 +258,11 @@ REST_FRAMEWORK = {
 #         'TIMEOUT': 3600,
 #     }
 # }
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': [
-           '127.0.0.1:11211',
-        ],
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+#         'LOCATION': [
+#            '127.0.0.1:11211',
+#         ],
+#     }
+# }

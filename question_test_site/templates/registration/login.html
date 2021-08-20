@@ -1,24 +1,22 @@
 {% extends "tests/base.html" %}
-
-
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block content %}
 
 {% if user.is_authenticated %}
-  <h3><a href="/">You`re already log in. To show the main page press on this text.</a></h3>
+  <h3><a href="/">{% trans 'You`re already log in. To show the main page press on this text.' %}</a></h3>
 {% else %}
 
 {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
+  <p>{% trans 'Your username and password didn`t match. Please try again.' %}</p>
 {% endif %}
 
 {% if next %}
   {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
+    <p>{% trans 'Your account doesn`t have access to this page. To proceed, please login with an account that has access.' %}</p>
   {% else %}
-    <p>Please login to see this page.</p>
+    <p>{% trans 'Please login to see this page.' %}</p>
   {% endif %}
 {% endif %}
 
