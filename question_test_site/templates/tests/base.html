@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load l10n %}
 
 <!doctype html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -58,13 +59,29 @@
                <li class="nav-item">
                   <a class="nav-link" href="/completed">{% trans 'Completed tests'  %}</a>
                </li>
+               <li class="nav-item">
+               {% get_current_language as LANGUAGE_CODE %}
+               {% get_available_languages as LANGUAGES %}
+               {% get_language_info_list for LANGUAGES as languages %}
+                  <p style="color: white"><b>{% trans "Language" %}:</b></p>
+                     <form action="/i18n/setlang/" method="POST">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="/" /><br/>
+                        <select name="language">
+                           {% for lang in LANGUAGES %}
+                           <option value="{{ lang.0 }}">{{ lang.1 }}</option>
+                           {% endfor %}
+                        </select><br/>
+                        <input type="submit" value="{% trans 'change' %}" />
+                     </form>
+               </li>
             </ul>
             <form method="GET" action="{% url  'tests:find_by_date' %}">
                <div style="display: flex; flex-direction: row; ">
                   <a style="color: #FFFFFF; margin-right: 10px; margin-top: 8px "><b>From:</b> </a>
-                  <input type="date" class="form-control" id="date_from" name="date_from" placeholder="Дата" style="width: 180px; margin-right: 1%">
+                  <input type="date" class="form-control" id="date_from" name="date_from" placeholder="Дата" style="width: 180px; margin-right: 1%" required>
                   <a style="color: #FFFFFF;margin-right: 10px; margin-top: 8px"><b>To:</b></a>
-                  <input type="date" class="form-control" id="date_to" name="date_to" placeholder="Дата" style="width: 180px; margin-right: 1%; ">
+                  <input type="date" class="form-control" id="date_to" name="date_to" placeholder="Дата" style="width: 180px; margin-right: 1%; " required>
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="border-color: #17a2b8; color: #17a2b8; margin-right: 10px; ">{% trans 'Search by date' %}</button>
                </div>
             </form>
@@ -88,13 +105,13 @@
             <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'logout'%}?next={{request.path}}">
                {% csrf_token %}
                <input style="display: none;" type="text" value="up" name="order">
-               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; margin-left: 10px; border-color: #ffd700; color: #ffd700">Logout</button>
+               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; margin-left: 10px; border-color: #ffd700; color: #ffd700">{% trans 'Logout' %}</button>
             </form>
             {% else %}
             <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'login'%}?next={{request.path}}">
                {% csrf_token %}
                <input style="display: none;" type="text"  name="order">
-               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; margin-left: 10px; border-color: #ffd700; color: #ffd700">Login</button>
+               <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 10px; margin-left: 10px; border-color: #ffd700; color: #ffd700">{% trans 'Login' %}</button>
             </form>
             {% endif %}
          </div>
@@ -104,7 +121,7 @@
          {% block content %}{% endblock %}
       </main>
       <footer class="container">
-         <p>&copy; Quiz 2021</p>
+         <p>&copy; {% trans 'Quiz' %} 2021</p>
       </footer>
       <script>
          $(function(){

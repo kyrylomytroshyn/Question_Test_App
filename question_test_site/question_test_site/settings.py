@@ -15,13 +15,12 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(__file__)) #Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-
-with open(BASE_DIR/'secret_key.txt') as f:
+with open(BASE_DIR + '/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
 
@@ -36,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,6 +60,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.cache.FetchFromCacheMiddleware",
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -76,7 +78,7 @@ ROOT_URLCONF = 'question_test_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR + '/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,7 +99,7 @@ WSGI_APPLICATION = 'question_test_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR + '/db.sqlite3',
     }
 }
 
@@ -122,9 +124,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
+
+LOCALE_PATHS = (BASE_DIR + '/locale', )
+
+gettext = lambda s: s
 LANGUAGES = [
-    ('en', 'English'),
-    ('uk', 'Ukrainian'),
+    ('en', gettext('English')),
+    ('uk', gettext('Ukrainian')),
 ]
 
 from celery.schedules import crontab
@@ -258,11 +264,12 @@ SESSIONS_ENGINE = 'django.contrib.sessions.backends.cache'
 #         'TIMEOUT': 3600,
 #     }
 # }
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-#         'LOCATION': [
-#            '127.0.0.1:11211',
-#         ],
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'djpymemcache.backend.PyMemcacheCache',
+        'LOCATION': [
+           '127.0.0.1:11211',
+        ],
+
+    }
+}
