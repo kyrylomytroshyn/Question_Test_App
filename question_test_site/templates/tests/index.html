@@ -1,4 +1,6 @@
 {% extends 'tests/base.html' %}
+{% load i18n %}
+{% load l10n %}
 
     {% block content %}
     <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -18,7 +20,9 @@
                  <h2>{{ post.title }}</h2>
                  <p>{{ post.test_info }}</p>
                  <p><a class="btn btn-secondary" href="/{{ post.id }}" role="button">Run test ->>></a></p>
+                 {% localize on %}
                  <p>Created at: {{ post.created_at }}</p>
+                 {% endlocalize %}
              </div>
             {% endfor %}
         </div>

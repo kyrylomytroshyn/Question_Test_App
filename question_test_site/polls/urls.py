@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from .views import (
     TestListView,
@@ -9,7 +9,8 @@ from .views import (
     search,
     find_by_date,
     register_request,
-    login_request
+    login_request,
+    lang
 )
 
 app_name = 'tests'
@@ -24,4 +25,6 @@ urlpatterns = [
     path('find_by_date', find_by_date, name="find_by_date"),
     path("register", register_request, name="register"),
     path("login", login_request, name="login_request"),
+    path('lng/<str:lang_code>', lang)
 ]
+
