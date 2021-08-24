@@ -6,7 +6,7 @@ from question_test_site.settings import BASE_DIR
 import csv
 from django.utils.timezone import now
 
-filename = BASE_DIR / 'report.csv'
+filename = BASE_DIR + '/report.csv'
 
 @app.task
 def create_log():
