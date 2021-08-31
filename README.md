@@ -36,3 +36,12 @@ python manage.py runserver
 Then, write 127.0.0.1:8000 in browser address line.
 
 
+To run this app with docker-compose write the commands bellow:
+
+```
+ docker-compose build
+ docker-compose up -d --remove-orphans
+ docker-compose exec backend python3 manage.py migrate
+
+```
+

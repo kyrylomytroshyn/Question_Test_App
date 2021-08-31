@@ -20,15 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__)) #Path(__file__).resolve().
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-with open(BASE_DIR + '/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
-
+SECRET_KEY = os.getenv('SECRET_KEY', 'NOT_SECRET_KEY')
 
 # # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY =
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -43,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'debug_toolbar',
     'rangefilter',
     'django_celery_results',
     "django_celery_beat",
@@ -68,8 +65,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
@@ -261,6 +256,5 @@ CACHES = {
         'LOCATION': [
            '127.0.0.1:11211',
         ],
-
     }
 }
